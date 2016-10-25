@@ -106,7 +106,7 @@ The only difference between the two Marshaller classes is the different marshall
 			marshaller.setProperty(MarshallerProperties.JSON_INCLUDE_ROOT, true);
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			healthprofile2.generated.ObjectFactory factory = new healthprofile2.generated.ObjectFactory();
-	```	
+```	
 
 ### 2.4 JAXBUnMarshaller.java
 
@@ -122,7 +122,7 @@ JAXBUnMarshaller starts setting the file that we want to unmarshall(people.xml),
 					.newInstance("http://www.w3.org/2001/XMLSchema");
 			Schema schema = schemaFactory.newSchema(new File("people.xsd"));
 			unMarshaller.setSchema(schema);
-	```	
+```	
 
 The class is supported by another class CustomValidationEventHandler that check and handle possible errors and issues came out during the un-marshalling. CustomValidationEventHandler uses a handler called ValidationEventHandler. This handler represent an instance of ValidationEvent.
 
@@ -135,7 +135,7 @@ The next step for this class is to do the un-marshaller and put it in a JAXBElem
 					.unmarshal(xmlDocument);
 			//get out people in the xml 
 			PeopleType people = peopleElement.getValue();
-	```	
+```	
 
 Finally, in order to show that the un-marshaller has been succesfully completed, I decided to print out the people information that come from  JAXBElement through the get method of the JAXB classes.
 
