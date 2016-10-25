@@ -88,7 +88,7 @@ The person information has been inserted using the set methods of the auto-gener
 			person.setLastname("Lissoni");
 			HealthprofileType healthprofile= factory.createHealthprofileType();
 			healthprofile.setBmi(1);
-		```	
+```	
 
 Finally the java class root just created by the factory and setted (in our case PeopleType),will be put in a JAXBElement and then passed to the marshaller that will does the marshall of it. 
 The result will be printed in the file created at the beginning of the JAXBMarshaller main();
