@@ -4,28 +4,26 @@ Davide Lissoni Mat.179878
 24/10/2016
 
 
-1.Introduction:
+## 1.Introduction:
 
 This report is about the first assignment  of the Introduction to Service Design and Engineering
 course.
 The request for this project was to extend the Health Profile Reader/Writer application, implemented during the course laboratory lessons, in the following way:
 
-Modify the database: use an xml document as database instead of the HashMap of a Pojo  used in the laboratory example.
-The database contains basic information about a person an his/her health profile;
-Extend the HealthProfile class by adding the methods getHeight, getWeight and getHelathProfile that given the id of a person as input returns respective his/her weight ,height and health profile. Again a method that return all the people information present in the DB and finally a function that, given an operator and a weight number as inputs returns all the person that satisfied the condition indicated. 
-Note that the database has been change in a xml file, therefore these methods need to use xpath technology;
-Create an xsd schema of the database.xml in order to generate java JAXB  classes through XJC;
-Implements two classes that does the marshalling of the classes just generated in order to transform their memory representation in an xml and json files;
-Implements a class that does the un-marshalling  of the database.xml and use as data tree representation the JAXB classes generated.
+1. **Modify the database**: use an xml document as database instead of the HashMap of a Pojo  used in the laboratory example.The database contains basic information about a person an his/her health profile;
+2. **Extend the HealthProfile class** by adding the methods getHeight, getWeight and getHelathProfile that given the id of a person as input returns respective his/her weight ,height and health profile. Again a method that return all the people information present in the DB and finally a function that, given an operator and a weight number as inputs returns all the person that satisfied the condition indicated. Note that the database has been change in a xml file, therefore these methods need to use xpath technology;
+3. **Create an xsd schema of the database.xml** in order to generate java JAXB  classes through XJC;
+4. **Implements two classes that does the marshalling** of the classes just generated in order to transform their memory representation in an xml and json files;
+5. **Implements a class that does the un-marshalling** of the database.xml and use as data tree representation the JAXB classes generated.
 
 Furthermore the project  must be entirely compilable and executable through ant (I used Apache ivy as dependency manager).
 
 
-2.Implementation:
+## 2.Implementation:
 
 In this chapter will be exposed how the application has been implemented, explaining class to class their functionalities and  their code.
 
-2.1 HealthProfile.java:
+### 2.1 HealthProfile.java:
 
 This class is responsible for parse and query the database.xml in order to retrieve the information listed above.
 The first feature then, is to load, in order to parse it, the xml file, by using the DocumentBuilder(DocumentBuliderFactory instance) parse(File) method,  as explained in the laboratory lessons. 
@@ -35,8 +33,7 @@ The next task was query the database in order to get the information required. T
 
 All the “query” functions implemented return a Node elements that will be in turn parsed (using Node.getChildNode().item().getNodeName and Node.getChildNode().item().getTextContent) in the main(), in order to print out the information requested in a formatted String.<figura forse>
 
-
-2.2 XSD schema and JAXB classes generation.
+### 2.2 XSD schema and JAXB classes generation.
 
 The xsd schema created represent respectively the database.xml that in this project has been called “people.xml”. 
 The java classes has been generated using xjc and implemented by adding the following lines on the build.xml (Figure 2):
@@ -48,7 +45,7 @@ Furthermore xjc generate as default the ObjectFactory class which contains facto
 Since  xsd schema has a tree data structure, also the JAXB classes keep the same “skeleton” where PeopleType represent the tree root.
 
 
-2.3 JAXBMarshaller.java: 
+### 2.3 JAXBMarshaller.java: 
 
 This class is the xml marshaller, which has the task of does the marshall of data contained using JAXB Classes generated before, representing them in a xml view. 
 Note that the data used as example for this project are setted during the execution of this class and represent three different persons. 
@@ -76,7 +73,8 @@ The person information has been inserted using the set methods of the auto-gener
 Finally the java class root just created by the factory and setted (in our case PeopleType),will be put in a JAXBElement and then passed to the marshaller that will does the marshall of it. 
 The result will be printed in the file created at the beginning of the JAXBMarshaller main();
 
-JAXBMarshallerJSon.class  
+### JAXBMarshallerJSon.java
+
 This class is the json marshaller and keep the same structure of JAXBMarshaller. This it has been possible thanks to the org.eclipse.persistence.jaxb.moxy library which enables Java developers to efficiently bind Java classes to xml and also json schema.
 The only difference between the two Marshaller classes is the different marshaller properties settings (Figure 5):
 
@@ -93,7 +91,7 @@ The only difference between the two Marshaller classes is the different marshall
 
 
 
-2.4 JAXBUnMarshaller.java
+### 2.4 JAXBUnMarshaller.java
 
 This class is in charge to de-serialize XML data into newly created Java content trees that, in our case, is composed by the JAXB classes.
 Also the unMarshaller class works with the help of the jaxb-api.
@@ -119,14 +117,14 @@ The next step for this class is to do the un-marshaller and put it in a JAXBElem
 Finally, in order to show that the un-marshaller has been succesfully completed, I decided to print out the people information that come from  JAXBElement through the get method of the JAXB classes.
 
 
-2.5 ANT and Apache Ivy
+### 2.5 ANT and Apache Ivy
 
 In order to compile and execute the project using ANT, there is the need of an ANT build script: build.xml.
 For this project has been modified and used the build.xml utilized in the LAb04 session, updating it according to this assignments needs.
 The ivy.xml, containing the project dependencies, is also the same utilized in the lab04 session modified in order to not download unnecessary library and add  org.eclipse.persistence.jaxb.moxy used in the JAXBMarshallerJson.class
 
 
-3.Deployment:
+## 3.Deployment:
 
 In order to run the project through command line make sure to be located in the project folder.
 Initially there is the need to compile the application before execute it.
